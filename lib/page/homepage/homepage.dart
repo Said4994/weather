@@ -31,29 +31,7 @@ class HomePageWeather extends StatelessWidget {
               SizedBox(
                 height: ScreenSize(context).heightS / 12,
               ),
-              Padding(
-                padding: const EdgeInsets.all(30),
-                child: Container(
-                  height: ScreenSize(context).heightS / 11,
-                  width: ScreenSize(context).widthS / 1.5,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(35),
-                      border: Border.all(color: Colors.white)),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.actor(color: Colors.white),
-                    cursorColor: Colors.white,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: null,
-                          icon: Icon(Icons.search, color: Colors.white)),
-                      border: InputBorder.none,
-                      labelText: "         Şehir Giriniz",
-                      labelStyle: GoogleFonts.actor(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
+              textFormFieldSearchCity(context),
               Text(
                 curve.name,
                 style: GoogleFonts.actor(
@@ -84,74 +62,110 @@ class HomePageWeather extends StatelessWidget {
               SizedBox(
                 height: ScreenSize(context).heightS / 30,
               ),
-              Wrap(
-                spacing: 50,
-                runAlignment: WrapAlignment.spaceAround,
-                children: [
-                  Text(
-                    'Basınç :' + curve.main.pressure.toString(),
-                    style: GoogleFonts.actor(
-                      fontSize: 22,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    'Nem : %' + curve.main.humidity.toString(),
-                    style: GoogleFonts.actor(
-                      fontSize: 22,
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              ),
-              Wrap(
-                spacing: 35,
-                runAlignment: WrapAlignment.spaceAround,
-                children: [
-                  Text(
-                    'Min. Sıc. :' +
-                        Angle.degrees(curve.main.tempMin).toString(),
-                    style: GoogleFonts.actor(
-                      fontSize: 22,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    'Max. Sıc.' + Angle.degrees(curve.main.tempMax).toString(),
-                    style: GoogleFonts.actor(
-                      fontSize: 22,
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              ),
-              Wrap(
-                spacing: 35,
-                runAlignment: WrapAlignment.spaceAround,
-                children: [
-                  Text(
-                    'Gün Doğumu:' +
-                        DateTime.fromMillisecondsSinceEpoch(curve.sys.sunrise)
-                            .toString()
-                            .substring(11, 16),
-                    style: GoogleFonts.actor(
-                      fontSize: 22,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    'Gün Batımı: ' +
-                        DateTime.fromMillisecondsSinceEpoch(curve.sys.sunset)
-                            .toString()
-                            .substring(11, 16),
-                    style: GoogleFonts.actor(
-                      fontSize: 22,
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              ),
+              wrapHumidityAndPressure(curve),
+              wrapMaxAndMinDegree(curve),
+              wrapSunsetSunriseInfo(curve),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Wrap wrapHumidityAndPressure(CurrentLocationModel curve) {
+    return Wrap(
+      spacing: 50,
+      runAlignment: WrapAlignment.spaceAround,
+      children: [
+        Text(
+          'Basınç :' + curve.main.pressure.toString(),
+          style: GoogleFonts.actor(
+            fontSize: 22,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          'Nem : %' + curve.main.humidity.toString(),
+          style: GoogleFonts.actor(
+            fontSize: 22,
+            color: Colors.white,
+          ),
+        )
+      ],
+    );
+  }
+
+  Wrap wrapMaxAndMinDegree(CurrentLocationModel curve) {
+    return Wrap(
+      spacing: 35,
+      runAlignment: WrapAlignment.spaceAround,
+      children: [
+        Text(
+          'Min. Sıc. :' + Angle.degrees(curve.main.tempMin).toString(),
+          style: GoogleFonts.actor(
+            fontSize: 22,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          'Max. Sıc.' + Angle.degrees(curve.main.tempMax).toString(),
+          style: GoogleFonts.actor(
+            fontSize: 22,
+            color: Colors.white,
+          ),
+        )
+      ],
+    );
+  }
+
+  Wrap wrapSunsetSunriseInfo(CurrentLocationModel curve) {
+    return Wrap(
+      spacing: 35,
+      runAlignment: WrapAlignment.spaceAround,
+      children: [
+        Text(
+          'Gün Doğumu:' +
+              DateTime.fromMillisecondsSinceEpoch(curve.sys.sunrise)
+                  .toString()
+                  .substring(11, 16),
+          style: GoogleFonts.actor(
+            fontSize: 22,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          'Gün Batımı: ' +
+              DateTime.fromMillisecondsSinceEpoch(curve.sys.sunset)
+                  .toString()
+                  .substring(11, 16),
+          style: GoogleFonts.actor(
+            fontSize: 22,
+            color: Colors.white,
+          ),
+        )
+      ],
+    );
+  }
+
+  Padding textFormFieldSearchCity(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(30),
+      child: Container(
+        height: ScreenSize(context).heightS / 11,
+        width: ScreenSize(context).widthS / 1.5,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35),
+            border: Border.all(color: Colors.white)),
+        child: TextFormField(
+          textAlign: TextAlign.center,
+          style: GoogleFonts.actor(color: Colors.white),
+          cursorColor: Colors.white,
+          decoration: InputDecoration(
+            suffixIcon: IconButton(
+                onPressed: null, icon: Icon(Icons.search, color: Colors.white)),
+            border: InputBorder.none,
+            labelText: "         Şehir Giriniz",
+            labelStyle: GoogleFonts.actor(color: Colors.white),
           ),
         ),
       ),
