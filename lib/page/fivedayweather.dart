@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/page/backgroundimage.dart';
 
 class FiveDayWeather extends StatelessWidget {
-  const FiveDayWeather({Key key}) : super(key: key);
+  FiveDayWeather weather = FiveDayWeather();
+  FiveDayWeather({Key key, this.weather}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

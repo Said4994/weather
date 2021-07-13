@@ -169,7 +169,7 @@ class HomePageWeather extends StatelessWidget {
           decoration: InputDecoration(
               hintStyle: GoogleFonts.actor(color: Colors.white),
               suffixIcon: IconButton(
-                  onPressed: null,
+                  onPressed: loc.screennavigatefivedaypage,
                   icon: Icon(
                     Icons.search_rounded,
                     color: Colors.white,

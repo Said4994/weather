@@ -12,7 +12,6 @@ import 'package:get/get.dart';
 class Controller extends GetxController {
   Position currentPosition;
   CurrentLocationModel currentweather = CurrentLocationModel();
-  NetworkService network = NetworkService();
   TextEditingController search = TextEditingController();
   FiveDayWeather fivedayweather = FiveDayWeather();
 
@@ -24,7 +23,8 @@ class Controller extends GetxController {
   }
 
   void screennavigatehomepage() async {
-    currentweather = await network.getcurrentlocationapi(currentPosition);
+    currentweather =
+        await NetworkService().getcurrentlocationapi(currentPosition);
     if (currentweather != null) {
       BackgroundImage();
       Get.off(HomePageWeather(
@@ -34,7 +34,9 @@ class Controller extends GetxController {
   }
 
   void screennavigatefivedaypage() async {
-    fivedayweather = await network.getfivedayweather(currentPosition);
+    fivedayweather = await NetworkService().getfivedayweather(search.text);
+    search.clear();
+    print(fivedayweather.city.coord.lat);
   }
 
   @override
