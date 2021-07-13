@@ -3,15 +3,18 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:weather_app/model/currentlocationmodel.dart';
-import 'package:weather_app/page/homepage/backgroundimage.dart';
-import 'package:weather_app/page/homepage/homepage.dart';
+import 'package:weather_app/model/fiveDayModel.dart';
+import 'package:weather_app/page/backgroundimage.dart';
+import 'package:weather_app/page/homepage.dart';
 import 'package:weather_app/service/api.dart';
 import 'package:get/get.dart';
 
-class SplashScreenEvent extends GetxController {
+class Controller extends GetxController {
   Position currentPosition;
   CurrentLocationModel currentweather = CurrentLocationModel();
   NetworkService network = NetworkService();
+  TextEditingController search = TextEditingController();
+  FiveDayWeather fivedayweather = FiveDayWeather();
 
   Future<Position> getCurrentLocation() async {
     {
@@ -20,7 +23,7 @@ class SplashScreenEvent extends GetxController {
     }
   }
 
-  void screennavigate() async {
+  void screennavigatehomepage() async {
     currentweather = await network.getcurrentlocationapi(currentPosition);
     if (currentweather != null) {
       BackgroundImage();
@@ -30,9 +33,19 @@ class SplashScreenEvent extends GetxController {
     }
   }
 
+  void screennavigatefivedaypage() async {
+    fivedayweather = await network.getfivedayweather(currentPosition);
+  }
+
   @override
   void onInit() async {
-    await getCurrentLocation().then((value) => screennavigate());
+    await getCurrentLocation().then((value) => screennavigatehomepage());
     super.onInit();
+  }
+
+  @override
+  void dispose() {
+    search.dispose();
+    super.dispose();
   }
 }

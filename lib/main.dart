@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:weather_app/page/homepage/homepage.dart';
+import 'package:weather_app/page/homepage.dart';
 import 'package:weather_app/page/splashscreen.dart';
 
 void main() {

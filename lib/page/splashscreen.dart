@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app/const/screen.dart';
-import 'package:weather_app/controller/locationcontroller.dart';
+import 'package:weather_app/controller/controller.dart';
 
 class WeatherSplash extends StatelessWidget {
-  final loc = Get.put(SplashScreenEvent());
+  final loc = Get.put(Controller());
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,8 +15,8 @@ class WeatherSplash extends StatelessWidget {
         child: Center(
           child: Text(
             'Weather',
-            style: GoogleFonts.pacifico(
-                fontSize: 60, color: Colors.green.withOpacity(0.4)),
+            style:
+                TextStyle(color: Colors.green.withOpacity(0.4), fontSize: 60),
           ),
         ),
       ),

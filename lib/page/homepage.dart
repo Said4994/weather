@@ -1,13 +1,18 @@
 import 'package:angles/angles.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/get_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app/const/screen.dart';
+import 'package:get/get.dart';
+import 'package:weather_app/controller/controller.dart';
 import 'package:weather_app/model/currentlocationmodel.dart';
-import 'package:weather_app/page/homepage/backgroundimage.dart';
+import 'package:weather_app/page/backgroundimage.dart';
 
 class HomePageWeather extends StatelessWidget {
   CurrentLocationModel curve;
-  HomePageWeather({Key key, this.curve}) : super(key: key);
+  TextEditingController search;
+  final loc = Get.put(Controller());
+  HomePageWeather({Key key, this.curve, this.search}) : super(key: key);
 
   Widget build(BuildContext context) {
     return Stack(
@@ -60,7 +65,7 @@ class HomePageWeather extends StatelessWidget {
                 style: GoogleFonts.actor(fontSize: 40, color: Colors.white),
               ),
               SizedBox(
-                height: ScreenSize(context).heightS / 30,
+                height: ScreenSize(context).heightS / 10,
               ),
               wrapHumidityAndPressure(curve),
               wrapMaxAndMinDegree(curve),
@@ -85,7 +90,7 @@ class HomePageWeather extends StatelessWidget {
           ),
         ),
         Text(
-          'Nem : %' + curve.main.humidity.toString(),
+          'Nem :%' + curve.main.humidity.toString(),
           style: GoogleFonts.actor(
             fontSize: 22,
             color: Colors.white,
@@ -151,22 +156,27 @@ class HomePageWeather extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(30),
       child: Container(
-        height: ScreenSize(context).heightS / 11,
-        width: ScreenSize(context).widthS / 1.5,
+        height: 45,
+        width: 300,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35),
             border: Border.all(color: Colors.white)),
         child: TextFormField(
+          controller: loc.search,
           textAlign: TextAlign.center,
           style: GoogleFonts.actor(color: Colors.white),
           cursorColor: Colors.white,
           decoration: InputDecoration(
-            suffixIcon: IconButton(
-                onPressed: null, icon: Icon(Icons.search, color: Colors.white)),
-            border: InputBorder.none,
-            labelText: "         Şehir Giriniz",
-            labelStyle: GoogleFonts.actor(color: Colors.white),
-          ),
+              hintStyle: GoogleFonts.actor(color: Colors.white),
+              suffixIcon: IconButton(
+                  onPressed: null,
+                  icon: Icon(
+                    Icons.search_rounded,
+                    color: Colors.white,
+                    size: 23,
+                  )),
+              border: InputBorder.none,
+              hintText: '      Şehir Giriniz'),
         ),
       ),
     );
