@@ -5,6 +5,7 @@ import 'package:get/instance_manager.dart';
 import 'package:weather_app/model/currentlocationmodel.dart';
 import 'package:weather_app/model/fiveDayModel.dart';
 import 'package:weather_app/page/backgroundimage.dart';
+import 'package:weather_app/page/fivedayweather.dart';
 import 'package:weather_app/page/homepage.dart';
 import 'package:weather_app/service/api.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,8 @@ class Controller extends GetxController {
   Position currentPosition;
   CurrentLocationModel currentweather = CurrentLocationModel();
   TextEditingController search = TextEditingController();
-  FiveDayWeather fivedayweather = FiveDayWeather();
+  FiveDayWeatherModel fivedayweather = FiveDayWeatherModel();
+  String errorMessage;
 
   Future<Position> getCurrentLocation() async {
     {
@@ -29,14 +31,24 @@ class Controller extends GetxController {
       BackgroundImage();
       Get.off(HomePageWeather(
         curve: currentweather,
+        search: search,
       ));
     }
   }
 
   void screennavigatefivedaypage() async {
-    fivedayweather = await NetworkService().getfivedayweather(search.text);
+    await NetworkService().getfivedayweather(search.text).then((value) {
+      if (value.runtimeType == String) {
+        errorMessage = value;
+      } else {
+        fivedayweather = value;
+        Get.to(FiveDayWeatherScreen(
+          weather: fivedayweather,
+        ));
+      }
+    });
+
     search.clear();
-    print(fivedayweather.city.coord.lat);
   }
 
   @override

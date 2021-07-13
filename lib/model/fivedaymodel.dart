@@ -1,13 +1,13 @@
-class FiveDayWeather {
+class FiveDayWeatherModel {
   String cod;
   int message;
   int cnt;
   List<Lis> lis;
   City city;
 
-  FiveDayWeather({this.cod, this.message, this.cnt, this.lis, this.city});
+  FiveDayWeatherModel({this.cod, this.message, this.cnt, this.lis, this.city});
 
-  FiveDayWeather.fromJson(Map<String, dynamic> json) {
+  FiveDayWeatherModel.fromJson(Map<String, dynamic> json) {
     cod = json['cod'];
     message = json['message'];
     cnt = json['cnt'];

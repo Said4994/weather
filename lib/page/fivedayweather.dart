@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/model/fiveDayModel.dart';
 import 'package:weather_app/page/backgroundimage.dart';
 
-class FiveDayWeather extends StatelessWidget {
-  FiveDayWeather weather = FiveDayWeather();
-  FiveDayWeather({Key key, this.weather}) : super(key: key);
+class FiveDayWeatherScreen extends StatelessWidget {
+  FiveDayWeatherModel weather = FiveDayWeatherModel();
+  FiveDayWeatherScreen({Key key, @required this.weather}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +12,10 @@ class FiveDayWeather extends StatelessWidget {
       children: [
         BackgroundImage(),
         Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+          ),
           backgroundColor: Colors.transparent,
         ),
       ],

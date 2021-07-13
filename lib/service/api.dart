@@ -21,7 +21,7 @@ class NetworkService {
     }
   }
 
-  Future<FiveDayWeather> getfivedayweather(String cityname) async {
+  Future getfivedayweather(String cityname) async {
     print(cityname);
     final String currentlocationIUrl =
         'http://api.openweathermap.org/data/2.5/forecast?q=' +
@@ -30,7 +30,9 @@ class NetworkService {
 
     final response = await http.get(Uri.parse(currentlocationIUrl));
     if (response.statusCode == 200) {
-      return FiveDayWeather.fromJson(jsonDecode(response.body));
+      return FiveDayWeatherModel.fromJson(jsonDecode(response.body));
+    } else {
+      return 'Şehir Bulunamadı';
     }
   }
 }

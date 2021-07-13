@@ -12,7 +12,8 @@ class HomePageWeather extends StatelessWidget {
   CurrentLocationModel curve;
   TextEditingController search;
   final loc = Get.put(Controller());
-  HomePageWeather({Key key, this.curve, this.search}) : super(key: key);
+  HomePageWeather({Key key, @required this.curve, this.search})
+      : super(key: key);
 
   Widget build(BuildContext context) {
     return Stack(
