@@ -4,69 +4,155 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app/const/screen.dart';
 import 'package:weather_app/model/currentlocationmodel.dart';
 import 'package:weather_app/page/homepage/backgroundimage.dart';
-import 'package:weather_icons/weather_icons.dart';
 
-class HomePageWeather extends StatefulWidget {
+class HomePageWeather extends StatelessWidget {
   CurrentLocationModel curve;
   HomePageWeather({Key key, this.curve}) : super(key: key);
 
-  @override
-  _HomePageWeatherState createState() => _HomePageWeatherState();
-}
-
-class _HomePageWeatherState extends State<HomePageWeather> {
-  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         BackgroundImage(),
-        CurrentWeather(
-          curve: widget.curve,
-        ),
+        mainScreen(context, this.curve),
       ],
     );
   }
-}
 
-class CurrentWeather extends StatelessWidget {
-  @override
-  CurrentLocationModel curve;
-  CurrentWeather({Key key, @required this.curve}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Scaffold mainScreen(BuildContext context, CurrentLocationModel curve) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Container(
-        height: ScreenSize(context).heightS,
-        width: ScreenSize(context).widthS,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: ScreenSize(context).heightS / 8,
-            ),
-            Text(
-              curve.name,
-              style: GoogleFonts.actor(
-                fontSize: 45,
-                color: Colors.white,
+      body: SingleChildScrollView(
+        child: Container(
+          height: ScreenSize(context).heightS,
+          width: ScreenSize(context).widthS,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: ScreenSize(context).heightS / 12,
               ),
-            ),
-            SizedBox(
-              height: ScreenSize(context).heightS / 30,
-            ),
-            Image.network(
-              'https://openweathermap.org/img/wn/' +
-                  curve.weather[0].icon +
-                  '@2x.png',
-              height: 150,
-            ),
-            Text(
-              Angle.degrees(curve.main.temp).toString(),
-              style: GoogleFonts.actor(fontSize: 40, color: Colors.white),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(30),
+                child: Container(
+                  height: ScreenSize(context).heightS / 11,
+                  width: ScreenSize(context).widthS / 1.5,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(35),
+                      border: Border.all(color: Colors.white)),
+                  child: TextFormField(
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.actor(color: Colors.white),
+                    cursorColor: Colors.white,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          onPressed: null,
+                          icon: Icon(Icons.search, color: Colors.white)),
+                      border: InputBorder.none,
+                      labelText: "         Şehir Giriniz",
+                      labelStyle: GoogleFonts.actor(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              Text(
+                curve.name,
+                style: GoogleFonts.actor(
+                  fontSize: 45,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(
+                height: ScreenSize(context).heightS / 20,
+              ),
+              Text(
+                curve.weather[0].description.toUpperCase(),
+                style: GoogleFonts.actor(
+                  fontSize: 24,
+                  color: Colors.white,
+                ),
+              ),
+              Image.network(
+                'https://openweathermap.org/img/wn/' +
+                    curve.weather[0].icon +
+                    '@2x.png',
+                height: 150,
+              ),
+              Text(
+                Angle.degrees(curve.main.temp).toString(),
+                style: GoogleFonts.actor(fontSize: 40, color: Colors.white),
+              ),
+              SizedBox(
+                height: ScreenSize(context).heightS / 30,
+              ),
+              Wrap(
+                spacing: 50,
+                runAlignment: WrapAlignment.spaceAround,
+                children: [
+                  Text(
+                    'Basınç :' + curve.main.pressure.toString(),
+                    style: GoogleFonts.actor(
+                      fontSize: 22,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    'Nem : %' + curve.main.humidity.toString(),
+                    style: GoogleFonts.actor(
+                      fontSize: 22,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+              Wrap(
+                spacing: 35,
+                runAlignment: WrapAlignment.spaceAround,
+                children: [
+                  Text(
+                    'Min. Sıc. :' +
+                        Angle.degrees(curve.main.tempMin).toString(),
+                    style: GoogleFonts.actor(
+                      fontSize: 22,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    'Max. Sıc.' + Angle.degrees(curve.main.tempMax).toString(),
+                    style: GoogleFonts.actor(
+                      fontSize: 22,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+              Wrap(
+                spacing: 35,
+                runAlignment: WrapAlignment.spaceAround,
+                children: [
+                  Text(
+                    'Gün Doğumu:' +
+                        DateTime.fromMillisecondsSinceEpoch(curve.sys.sunrise)
+                            .toString()
+                            .substring(11, 16),
+                    style: GoogleFonts.actor(
+                      fontSize: 22,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    'Gün Batımı: ' +
+                        DateTime.fromMillisecondsSinceEpoch(curve.sys.sunset)
+                            .toString()
+                            .substring(11, 16),
+                    style: GoogleFonts.actor(
+                      fontSize: 22,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
