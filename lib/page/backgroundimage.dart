@@ -5,8 +5,8 @@ class BackgroundImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenSize(context).heightS,
-      width: ScreenSize(context).widthS,
+      height: ScreenView(context).heightS,
+      width: ScreenView(context).widthS,
       decoration: new BoxDecoration(
         color: Colors.purple,
         gradient: new LinearGradient(

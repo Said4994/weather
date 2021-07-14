@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:weather_icons/weather_icons.dart';
 
-class ScreenSize {
+class ScreenView {
   BuildContext context;
-  ScreenSize(this.context);
+  ScreenView(this.context);
   double get heightS => MediaQuery.of(context).size.height;
   double get widthS => MediaQuery.of(context).size.width;
 }

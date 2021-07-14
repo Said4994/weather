@@ -10,8 +10,8 @@ class WeatherSplash extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        height: ScreenSize(context).heightS,
-        width: ScreenSize(context).widthS,
+        height: ScreenView(context).heightS,
+        width: ScreenView(context).widthS,
         child: Center(
           child: Text(
             'Weather',

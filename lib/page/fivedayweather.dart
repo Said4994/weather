@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/model/fiveDayModel.dart';
 import 'package:weather_app/page/backgroundimage.dart';
+import 'package:weather_app/page/homepage.dart';
 
 class FiveDayWeatherScreen extends StatelessWidget {
   FiveDayWeatherModel weather = FiveDayWeatherModel();
@@ -17,6 +18,10 @@ class FiveDayWeatherScreen extends StatelessWidget {
             elevation: 0.0,
           ),
           backgroundColor: Colors.transparent,
+          body: Center(
+            child: Icon(weathericon(weather.current.weather[0].icon),
+                size: 50, color: Colors.white),
+          ),
         ),
       ],
     );

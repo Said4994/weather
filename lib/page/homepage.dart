@@ -7,13 +7,13 @@ import 'package:get/get.dart';
 import 'package:weather_app/controller/controller.dart';
 import 'package:weather_app/model/currentlocationmodel.dart';
 import 'package:weather_app/page/backgroundimage.dart';
+import 'package:weather_icons/weather_icons.dart';
 
 class HomePageWeather extends StatelessWidget {
   CurrentLocationModel curve;
   TextEditingController search;
   final loc = Get.put(Controller());
-  HomePageWeather({Key key, @required this.curve, this.search})
-      : super(key: key);
+  HomePageWeather({Key key, this.curve, this.search}) : super(key: key);
 
   Widget build(BuildContext context) {
     return Stack(
@@ -29,13 +29,13 @@ class HomePageWeather extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         child: Container(
-          height: ScreenSize(context).heightS,
-          width: ScreenSize(context).widthS,
+          height: ScreenView(context).heightS,
+          width: ScreenView(context).widthS,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: ScreenSize(context).heightS / 12,
+                height: ScreenView(context).heightS / 12,
               ),
               textFormFieldSearchCity(context),
               Text(
@@ -46,7 +46,7 @@ class HomePageWeather extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: ScreenSize(context).heightS / 20,
+                height: ScreenView(context).heightS / 20,
               ),
               Text(
                 curve.weather[0].description.toUpperCase(),
@@ -55,18 +55,20 @@ class HomePageWeather extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              Image.network(
-                'https://openweathermap.org/img/wn/' +
-                    curve.weather[0].icon +
-                    '@2x.png',
-                height: 150,
+              SizedBox(
+                height: ScreenView(context).heightS / 20,
+              ),
+              Icon(weathericon(curve.weather[0].icon),
+                  size: 50, color: Colors.white),
+              SizedBox(
+                height: ScreenView(context).heightS / 20,
               ),
               Text(
                 Angle.degrees(curve.main.temp).toString(),
                 style: GoogleFonts.actor(fontSize: 40, color: Colors.white),
               ),
               SizedBox(
-                height: ScreenSize(context).heightS / 10,
+                height: ScreenView(context).heightS / 10,
               ),
               wrapHumidityAndPressure(curve),
               wrapMaxAndMinDegree(curve),
@@ -181,5 +183,65 @@ class HomePageWeather extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+IconData weathericon(String weatherposition) {
+  switch (weatherposition) {
+    case '01n':
+      return WeatherIcons.day_sunny;
+      break;
+    case '01d':
+      return WeatherIcons.day_sunny;
+      break;
+    case '02n':
+      return WeatherIcons.cloud_refresh;
+      break;
+    case '02d':
+      return WeatherIcons.cloud_refresh;
+      break;
+    case '03n':
+      return WeatherIcons.cloud;
+      break;
+    case '03d':
+      return WeatherIcons.cloud_refresh;
+      break;
+    case '04d':
+      return WeatherIcons.cloudy;
+      break;
+    case '04n':
+      return WeatherIcons.cloudy;
+      break;
+    case '09d':
+      return WeatherIcons.rain;
+      break;
+    case '09n':
+      return WeatherIcons.rain;
+      break;
+    case '10d':
+      return WeatherIcons.day_rain;
+      break;
+    case '10n':
+      return WeatherIcons.day_rain;
+      break;
+    case '11d':
+      return WeatherIcons.thunderstorm;
+      break;
+    case '11n':
+      return WeatherIcons.thunderstorm;
+      break;
+    case '13n':
+      return WeatherIcons.snow;
+      break;
+    case '13d':
+      return WeatherIcons.snow;
+      break;
+    case '50d':
+      return WeatherIcons.fog;
+      break;
+    case '50n':
+      return WeatherIcons.fog;
+      break;
+    default:
   }
 }
