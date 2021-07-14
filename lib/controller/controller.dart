@@ -52,7 +52,8 @@ class Controller extends GetxController {
                     fivedayweather = value;
 
                     Get.to(FiveDayWeatherScreen(
-                      weather: fivedayweather,
+                      city: city,
+                      wth: fivedayweather,
                     ));
                   })
                 }
