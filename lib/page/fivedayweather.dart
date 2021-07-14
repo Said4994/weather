@@ -63,59 +63,59 @@ class FiveDayWeatherScreen extends StatelessWidget {
                 SizedBox(
                   height: ScreenView(context).heightS / 6,
                 ),
-                Container(
-                  height: 220,
-                  width: ScreenView(context).widthS,
-                  color: Colors.transparent,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: wth.daily.length - 3,
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        width: 150,
-                        child: Card(
-                            shadowColor: Colors.grey,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  DateFormat('d-MM-y').format(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                          wth.daily[index].dt * 1000)),
-                                  style: GoogleFonts.actor(),
-                                ),
-                                SizedBox(height: 25),
-                                Icon(
-                                    weathericon(
-                                        wth.daily[index].weather[0].icon),
-                                    size: 50,
-                                    color: Colors.red.withOpacity(0.8)),
-                                SizedBox(height: 25),
-                                Text(
-                                  Angle.degrees(wth.daily[index].temp.day)
-                                      .toString(),
-                                  style: GoogleFonts.actor(),
-                                ),
-                              ],
-                            ),
-                            margin: EdgeInsets.all(7),
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                                side: BorderSide(
-                                  color: Colors.white.withOpacity(0.4),
-                                  width: 1,
-                                ))),
-                      );
-                    },
-                  ),
-                )
+                buildContainerDailyWeatherDetails(context)
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Container buildContainerDailyWeatherDetails(BuildContext context) {
+    return Container(
+      height: 220,
+      width: ScreenView(context).widthS,
+      color: Colors.transparent,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: wth.daily.length - 3,
+        itemBuilder: (context, index) {
+          return SizedBox(
+            width: 150,
+            child: Card(
+                shadowColor: Colors.grey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      DateFormat('d-MM-y').format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              wth.daily[index].dt * 1000)),
+                      style: GoogleFonts.actor(),
+                    ),
+                    SizedBox(height: 15),
+                    Icon(weathericon(wth.daily[index].weather[0].icon),
+                        size: 50, color: Colors.red.withOpacity(0.8)),
+                    SizedBox(height: 25),
+                    Text(
+                      Angle.degrees(wth.daily[index].temp.day).toString(),
+                      style: GoogleFonts.actor(),
+                    ),
+                  ],
+                ),
+                margin: EdgeInsets.all(7),
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: BorderSide(
+                      color: Colors.white.withOpacity(0.4),
+                      width: 1,
+                    ))),
+          );
+        },
+      ),
     );
   }
 }
