@@ -25,12 +25,14 @@ class HomePageWeather extends StatelessWidget {
   }
 
   Scaffold mainScreen(BuildContext context, CurrentLocationModel curve) {
+    double heightS = MediaQuery.of(context).size.height;
+    double widthS = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         child: Container(
-          height: ScreenView(context).heightS,
-          width: ScreenView(context).widthS,
+          height: heightS,
+          width: widthS,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -41,7 +43,7 @@ class HomePageWeather extends StatelessWidget {
               Text(
                 curve.name,
                 style: GoogleFonts.actor(
-                  fontSize: 45,
+                  fontSize: ScreenView(context).heightS * 0.05,
                   color: Colors.white,
                 ),
               ),
@@ -51,7 +53,7 @@ class HomePageWeather extends StatelessWidget {
               Text(
                 curve.weather[0].description.toUpperCase(),
                 style: GoogleFonts.actor(
-                  fontSize: 24,
+                  fontSize: ScreenView(context).heightS * 0.025,
                   color: Colors.white,
                 ),
               ),
@@ -59,20 +61,23 @@ class HomePageWeather extends StatelessWidget {
                 height: ScreenView(context).heightS / 20,
               ),
               Icon(weathericon(curve.weather[0].icon),
-                  size: 50, color: Colors.white),
+                  size: ScreenView(context).heightS * 0.05,
+                  color: Colors.white),
               SizedBox(
                 height: ScreenView(context).heightS / 20,
               ),
               Text(
                 Angle.degrees(curve.main.temp).toString(),
-                style: GoogleFonts.actor(fontSize: 40, color: Colors.white),
+                style: GoogleFonts.actor(
+                    fontSize: ScreenView(context).heightS * 0.05,
+                    color: Colors.white),
               ),
               SizedBox(
                 height: ScreenView(context).heightS / 10,
               ),
-              wrapHumidityAndPressure(curve),
-              wrapMaxAndMinDegree(curve),
-              wrapSunsetSunriseInfo(curve),
+              wrapHumidityAndPressure(curve, context),
+              wrapMaxAndMinDegree(curve, context),
+              wrapSunsetSunriseInfo(curve, context),
             ],
           ),
         ),
@@ -80,7 +85,8 @@ class HomePageWeather extends StatelessWidget {
     );
   }
 
-  Wrap wrapHumidityAndPressure(CurrentLocationModel curve) {
+  Wrap wrapHumidityAndPressure(
+      CurrentLocationModel curve, BuildContext context) {
     return Wrap(
       spacing: 50,
       runAlignment: WrapAlignment.spaceAround,
@@ -88,14 +94,14 @@ class HomePageWeather extends StatelessWidget {
         Text(
           'Basınç :' + curve.main.pressure.toString(),
           style: GoogleFonts.actor(
-            fontSize: 22,
+            fontSize: ScreenView(context).heightS * 0.02,
             color: Colors.white,
           ),
         ),
         Text(
           'Nem :%' + curve.main.humidity.toString(),
           style: GoogleFonts.actor(
-            fontSize: 22,
+            fontSize: ScreenView(context).heightS * 0.02,
             color: Colors.white,
           ),
         )
@@ -103,7 +109,7 @@ class HomePageWeather extends StatelessWidget {
     );
   }
 
-  Wrap wrapMaxAndMinDegree(CurrentLocationModel curve) {
+  Wrap wrapMaxAndMinDegree(CurrentLocationModel curve, BuildContext context) {
     return Wrap(
       spacing: 35,
       runAlignment: WrapAlignment.spaceAround,
@@ -111,14 +117,14 @@ class HomePageWeather extends StatelessWidget {
         Text(
           'Min. Sıc. :' + Angle.degrees(curve.main.tempMin).toString(),
           style: GoogleFonts.actor(
-            fontSize: 22,
+            fontSize: ScreenView(context).heightS * 0.02,
             color: Colors.white,
           ),
         ),
         Text(
           'Max. Sıc.' + Angle.degrees(curve.main.tempMax).toString(),
           style: GoogleFonts.actor(
-            fontSize: 22,
+            fontSize: ScreenView(context).heightS * 0.02,
             color: Colors.white,
           ),
         )
@@ -126,28 +132,28 @@ class HomePageWeather extends StatelessWidget {
     );
   }
 
-  Wrap wrapSunsetSunriseInfo(CurrentLocationModel curve) {
+  Wrap wrapSunsetSunriseInfo(CurrentLocationModel curve, BuildContext context) {
     return Wrap(
       spacing: 35,
       runAlignment: WrapAlignment.spaceAround,
       children: [
         Text(
           'Gün Doğumu:' +
-              DateTime.fromMillisecondsSinceEpoch(curve.sys.sunrise)
+              DateTime.fromMillisecondsSinceEpoch(curve.sys.sunrise * 1000)
                   .toString()
                   .substring(11, 16),
           style: GoogleFonts.actor(
-            fontSize: 22,
+            fontSize: ScreenView(context).heightS * 0.02,
             color: Colors.white,
           ),
         ),
         Text(
           'Gün Batımı: ' +
-              DateTime.fromMillisecondsSinceEpoch(curve.sys.sunset)
+              DateTime.fromMillisecondsSinceEpoch(curve.sys.sunset * 1000)
                   .toString()
                   .substring(11, 16),
           style: GoogleFonts.actor(
-            fontSize: 22,
+            fontSize: ScreenView(context).heightS * 0.02,
             color: Colors.white,
           ),
         )
@@ -159,8 +165,8 @@ class HomePageWeather extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(30),
       child: Container(
-        height: 45,
-        width: 300,
+        height: ScreenView(context).heightS * 0.04,
+        width: ScreenView(context).widthS * 0.6,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35),
             border: Border.all(color: Colors.white)),
@@ -169,17 +175,22 @@ class HomePageWeather extends StatelessWidget {
           textAlign: TextAlign.center,
           style: GoogleFonts.actor(color: Colors.white),
           cursorColor: Colors.white,
+          cursorHeight: ScreenView(context).heightS * 0.016,
           decoration: InputDecoration(
-              hintStyle: GoogleFonts.actor(color: Colors.white),
-              suffixIcon: IconButton(
-                  onPressed: loc.screennavigatefivedaypage,
-                  icon: Icon(
-                    Icons.search_rounded,
-                    color: Colors.white,
-                    size: 23,
-                  )),
-              border: InputBorder.none,
-              hintText: '      Şehir Giriniz'),
+            hintStyle: GoogleFonts.actor(
+              color: Colors.white,
+              fontSize: ScreenView(context).heightS * 0.016,
+            ),
+            suffixIcon: IconButton(
+                onPressed: loc.screennavigatefivedaypage,
+                icon: Icon(
+                  Icons.search_rounded,
+                  color: Colors.white,
+                  size: ScreenView(context).heightS * 0.023,
+                )),
+            border: InputBorder.none,
+            hintText: '      Şehir Giriniz',
+          ),
         ),
       ),
     );

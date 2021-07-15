@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app/model/currentlocationmodel.dart';
 import 'package:weather_app/model/fiveDayModel.dart';
 import 'package:weather_app/model/searchcitynameinfo.dart';
@@ -30,12 +29,11 @@ class Controller extends GetxController {
     await getCurrentLocation();
     currentweather =
         await NetworkService().getcurrentlocationapi(currentPosition);
-    if (currentweather != null) {
-      Get.off(() => HomePageWeather(
-            curve: currentweather,
-            search: search,
-          ));
-    }
+
+    Get.off(() => HomePageWeather(
+          curve: currentweather,
+          search: search,
+        ));
   }
 
   void screennavigatefivedaypage() async {
@@ -45,13 +43,28 @@ class Controller extends GetxController {
               if (a.runtimeType == String)
                 {
                   errorMessage = a,
-                  print(errorMessage),
-                  Get.defaultDialog(
-                      radius: 22,
-                      title: errorMessage,
-                      backgroundColor: Colors.white,
-                      titleStyle: GoogleFonts.actor(
-                          color: Colors.red.withOpacity(0.6))),
+                  Get.snackbar(
+                    'Hata ',
+                    errorMessage,
+                    margin: EdgeInsets.all(15),
+                    duration: Duration(seconds: 2),
+                    colorText: Colors.white,
+                    borderRadius: 30,
+                    backgroundGradient: LinearGradient(colors: [
+                      Colors.white,
+                      Colors.red.withOpacity(0.8),
+                      Colors.red.withOpacity(0.8),
+                      Colors.white,
+                    ]),
+                    dismissDirection: SnackDismissDirection.VERTICAL,
+                    icon: Icon(
+                      Icons.error_outline_outlined,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    snackPosition: SnackPosition.BOTTOM,
+                    forwardAnimationCurve: Curves.easeOutBack,
+                  )
                 }
               else
                 {
