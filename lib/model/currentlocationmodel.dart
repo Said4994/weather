@@ -82,8 +82,8 @@ class CurrentLocationModel {
 }
 
 class Coord {
-  double lon;
-  double lat;
+  dynamic lon;
+  dynamic lat;
 
   Coord({this.lon, this.lat});
 
@@ -126,10 +126,10 @@ class Weather {
 }
 
 class Main {
-  double temp;
-  double feelsLike;
-  double tempMin;
-  double tempMax;
+  dynamic temp;
+  dynamic feelsLike;
+  dynamic tempMin;
+  dynamic tempMax;
   int pressure;
   int humidity;
 
@@ -163,7 +163,7 @@ class Main {
 }
 
 class Wind {
-  double speed;
+  dynamic speed;
   int deg;
 
   Wind({this.speed, this.deg});
@@ -200,7 +200,7 @@ class Clouds {
 class Sys {
   int type;
   int id;
-  double message;
+  dynamic message;
   String country;
   int sunrise;
   int sunset;

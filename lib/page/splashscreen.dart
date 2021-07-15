@@ -15,8 +15,7 @@ class WeatherSplash extends StatelessWidget {
         child: Center(
           child: Text(
             'Weather',
-            style:
-                TextStyle(color: Colors.green.withOpacity(0.4), fontSize: 60),
+            style: TextStyle(color: Colors.red.withOpacity(0.6), fontSize: 60),
           ),
         ),
       ),

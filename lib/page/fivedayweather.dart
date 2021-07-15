@@ -57,7 +57,7 @@ class FiveDayWeatherScreen extends StatelessWidget {
                   height: ScreenView(context).heightS / 20,
                 ),
                 Text(
-                  Angle.degrees(city.main.temp).toString(),
+                  Angle.degrees((city.main.temp)).toString(),
                   style: GoogleFonts.actor(fontSize: 25, color: Colors.white),
                 ),
                 SizedBox(

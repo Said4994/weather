@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
           GetPage(name: '/', page: () => WeatherSplash()),
           GetPage(name: '/second', page: () => HomePageWeather()),
         ],
-        title: 'Flutter Demo',
+        title: 'Weather',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           // This is the theme of your application.

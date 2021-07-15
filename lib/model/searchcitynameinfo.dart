@@ -126,10 +126,10 @@ class Weather {
 }
 
 class Main {
-  double temp;
-  double feelsLike;
-  double tempMin;
-  double tempMax;
+  dynamic temp;
+  dynamic feelsLike;
+  dynamic tempMin;
+  dynamic tempMax;
   int pressure;
   int humidity;
 

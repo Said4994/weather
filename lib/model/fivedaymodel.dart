@@ -1,6 +1,6 @@
 class FiveDayWeatherModel {
-  double lat;
-  double lon;
+  dynamic lat;
+  dynamic lon;
   String timezone;
   int timezoneOffset;
   Current current;
@@ -49,17 +49,17 @@ class Current {
   int dt;
   int sunrise;
   int sunset;
-  double temp;
-  double feelsLike;
+  dynamic temp;
+  dynamic feelsLike;
   int pressure;
   int humidity;
-  double dewPoint;
-  double uvi;
+  dynamic dewPoint;
+  dynamic uvi;
   int clouds;
   int visibility;
-  double windSpeed;
+  dynamic windSpeed;
   int windDeg;
-  double windGust;
+  dynamic windGust;
   List<Weather> weather;
 
   Current(
@@ -156,7 +156,7 @@ class Daily {
   int sunset;
   int moonrise;
   int moonset;
-  double moonPhase;
+  dynamic moonPhase;
   Temp temp;
   FeelsLike feelsLike;
   int pressure;
