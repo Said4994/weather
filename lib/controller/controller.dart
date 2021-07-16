@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
-import 'package:http/http.dart';
 import 'package:weather_app/model/currentlocationmodel.dart';
 import 'package:weather_app/model/fiveDayModel.dart';
 import 'package:weather_app/model/searchcitynameinfo.dart';
@@ -29,7 +28,6 @@ class Controller extends GetxController {
 
   void getcurrentpos() async {
     await servicecontrol();
-    print(service);
     if (service) {
       currentPosition = await Geolocator.getCurrentPosition();
       currentweather =
