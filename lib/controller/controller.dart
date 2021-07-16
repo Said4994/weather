@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
+import 'package:http/http.dart';
 import 'package:weather_app/model/currentlocationmodel.dart';
 import 'package:weather_app/model/fiveDayModel.dart';
 import 'package:weather_app/model/searchcitynameinfo.dart';
@@ -19,25 +20,30 @@ class Controller extends GetxController {
   SearchCityNameInfo city = SearchCityNameInfo();
   FiveDayWeatherModel fivedayweather = FiveDayWeatherModel();
   String errorMessage;
+  bool service;
 
-  Future<Position> getCurrentLocation() async {
-    return await Geolocator.getCurrentPosition()
-        .then((value) => currentPosition = value);
+  Future servicecontrol() async {
+    service = await Geolocator.isLocationServiceEnabled();
+    return service;
   }
 
-  void screennavigatehomepage() async {
-    await getCurrentLocation();
-    currentweather =
-        await NetworkService().getcurrentlocationapi(currentPosition);
-
-    Get.off(() => HomePageWeather(
-          curve: currentweather,
-          search: search,
-        ));
+  void getcurrentpos() async {
+    await servicecontrol();
+    print(service);
+    if (service) {
+      currentPosition = await Geolocator.getCurrentPosition();
+      currentweather =
+          await NetworkService().getcurrentlocationapi(currentPosition);
+      Get.off(() => HomePageWeather(
+            curve: currentweather,
+            search: search,
+          ));
+    } else
+      Geolocator.openAppSettings();
   }
 
   void screennavigatefivedaypage() async {
-    await NetworkService()
+    NetworkService()
         .getfivedayweatherlocationinfo(search.text)
         .then((a) async => {
               if (a.runtimeType == String)
@@ -84,7 +90,7 @@ class Controller extends GetxController {
 
   @override
   void onInit() {
-    screennavigatehomepage();
+    getcurrentpos();
     super.onInit();
   }
 

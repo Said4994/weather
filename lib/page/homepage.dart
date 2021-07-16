@@ -25,14 +25,12 @@ class HomePageWeather extends StatelessWidget {
   }
 
   Scaffold mainScreen(BuildContext context, CurrentLocationModel curve) {
-    double heightS = MediaQuery.of(context).size.height;
-    double widthS = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         child: Container(
-          height: heightS,
-          width: widthS,
+          height: ScreenView(context).heightS,
+          width: ScreenView(context).widthS,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
