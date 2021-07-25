@@ -7,164 +7,110 @@ import 'package:get/get.dart';
 import 'package:weather_app/controller/controller.dart';
 import 'package:weather_app/model/currentlocationmodel.dart';
 import 'package:weather_app/page/backgroundimage.dart';
-import 'package:weather_icons/weather_icons.dart';
 
 class HomePageWeather extends StatelessWidget {
   CurrentLocationModel curve;
   TextEditingController search;
   final loc = Get.put(Controller());
+
   HomePageWeather({Key key, this.curve, this.search}) : super(key: key);
 
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         BackgroundImage(),
-        mainScreen(context, this.curve),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            child: Container(
+              height: screenHeight,
+              width: screenWidth,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  sizedBox(screenHeight, 12),
+                  paddingtextFieldSearch(screenHeight, screenWidth),
+                  customText(curve.name, screenHeight, 0.05),
+                  sizedBox(screenHeight, 20),
+                  customText(curve.weather[0].description.toUpperCase(),
+                      screenHeight, 0.025),
+                  sizedBox(screenHeight, 20),
+                  Icon(weathericon(curve.weather[0].icon),
+                      size: screenHeight * 0.05, color: Colors.white),
+                  sizedBox(screenHeight, 20),
+                  customText(Angle.degrees(curve.main.temp).toString(),
+                      screenHeight, 0.05),
+                  sizedBox(screenHeight, 10),
+                  wrapPressureAndHumidity(curve, screenHeight),
+                  wrapminMax(curve, screenHeight),
+                  wrapsunriseandsunset(curve, screenHeight),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
 
-  Scaffold mainScreen(BuildContext context, CurrentLocationModel curve) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SingleChildScrollView(
-        child: Container(
-          height: ScreenView(context).heightS,
-          width: ScreenView(context).widthS,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: ScreenView(context).heightS / 12,
-              ),
-              textFormFieldSearchCity(context),
-              Text(
-                curve.name,
-                style: GoogleFonts.actor(
-                  fontSize: ScreenView(context).heightS * 0.05,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(
-                height: ScreenView(context).heightS / 20,
-              ),
-              Text(
-                curve.weather[0].description.toUpperCase(),
-                style: GoogleFonts.actor(
-                  fontSize: ScreenView(context).heightS * 0.025,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(
-                height: ScreenView(context).heightS / 20,
-              ),
-              Icon(weathericon(curve.weather[0].icon),
-                  size: ScreenView(context).heightS * 0.05,
-                  color: Colors.white),
-              SizedBox(
-                height: ScreenView(context).heightS / 20,
-              ),
-              Text(
-                Angle.degrees(curve.main.temp).toString(),
-                style: GoogleFonts.actor(
-                    fontSize: ScreenView(context).heightS * 0.05,
-                    color: Colors.white),
-              ),
-              SizedBox(
-                height: ScreenView(context).heightS / 10,
-              ),
-              wrapHumidityAndPressure(curve, context),
-              wrapMaxAndMinDegree(curve, context),
-              wrapSunsetSunriseInfo(curve, context),
-            ],
-          ),
-        ),
-      ),
+  Wrap wrapsunriseandsunset(CurrentLocationModel curve, double screenHeight) {
+    return Wrap(
+      spacing: 35,
+      runAlignment: WrapAlignment.spaceAround,
+      children: [
+        customText(
+            'Gün Doğumu:' +
+                DateTime.fromMillisecondsSinceEpoch(curve.sys.sunrise * 1000)
+                    .toString()
+                    .substring(11, 16),
+            screenHeight,
+            0.02),
+        customText(
+            'Gün Batımı: ' +
+                DateTime.fromMillisecondsSinceEpoch(curve.sys.sunset * 1000)
+                    .toString()
+                    .substring(11, 16),
+            screenHeight,
+            0.02)
+      ],
     );
   }
 
-  Wrap wrapHumidityAndPressure(
-      CurrentLocationModel curve, BuildContext context) {
+  Wrap wrapminMax(CurrentLocationModel curve, double screenHeight) {
+    return Wrap(
+      spacing: 35,
+      runAlignment: WrapAlignment.spaceAround,
+      children: [
+        customText('Min. Sıc. :' + Angle.degrees(curve.main.tempMin).toString(),
+            screenHeight, 0.02),
+        customText('Max. Sıc.' + Angle.degrees(curve.main.tempMax).toString(),
+            screenHeight, 0.02)
+      ],
+    );
+  }
+
+  Wrap wrapPressureAndHumidity(
+      CurrentLocationModel curve, double screenHeight) {
     return Wrap(
       spacing: 50,
       runAlignment: WrapAlignment.spaceAround,
       children: [
-        Text(
-          'Basınç :' + curve.main.pressure.toString(),
-          style: GoogleFonts.actor(
-            fontSize: ScreenView(context).heightS * 0.02,
-            color: Colors.white,
-          ),
-        ),
-        Text(
-          'Nem :%' + curve.main.humidity.toString(),
-          style: GoogleFonts.actor(
-            fontSize: ScreenView(context).heightS * 0.02,
-            color: Colors.white,
-          ),
-        )
+        customText(
+            'Basınç :' + curve.main.pressure.toString(), screenHeight, 0.02),
+        customText(
+            'Nem :%' + curve.main.humidity.toString(), screenHeight, 0.02),
       ],
     );
   }
 
-  Wrap wrapMaxAndMinDegree(CurrentLocationModel curve, BuildContext context) {
-    return Wrap(
-      spacing: 35,
-      runAlignment: WrapAlignment.spaceAround,
-      children: [
-        Text(
-          'Min. Sıc. :' + Angle.degrees(curve.main.tempMin).toString(),
-          style: GoogleFonts.actor(
-            fontSize: ScreenView(context).heightS * 0.02,
-            color: Colors.white,
-          ),
-        ),
-        Text(
-          'Max. Sıc.' + Angle.degrees(curve.main.tempMax).toString(),
-          style: GoogleFonts.actor(
-            fontSize: ScreenView(context).heightS * 0.02,
-            color: Colors.white,
-          ),
-        )
-      ],
-    );
-  }
-
-  Wrap wrapSunsetSunriseInfo(CurrentLocationModel curve, BuildContext context) {
-    return Wrap(
-      spacing: 35,
-      runAlignment: WrapAlignment.spaceAround,
-      children: [
-        Text(
-          'Gün Doğumu:' +
-              DateTime.fromMillisecondsSinceEpoch(curve.sys.sunrise * 1000)
-                  .toString()
-                  .substring(11, 16),
-          style: GoogleFonts.actor(
-            fontSize: ScreenView(context).heightS * 0.02,
-            color: Colors.white,
-          ),
-        ),
-        Text(
-          'Gün Batımı: ' +
-              DateTime.fromMillisecondsSinceEpoch(curve.sys.sunset * 1000)
-                  .toString()
-                  .substring(11, 16),
-          style: GoogleFonts.actor(
-            fontSize: ScreenView(context).heightS * 0.02,
-            color: Colors.white,
-          ),
-        )
-      ],
-    );
-  }
-
-  Padding textFormFieldSearchCity(BuildContext context) {
+  Padding paddingtextFieldSearch(double screenHeight, double screenWidth) {
     return Padding(
       padding: const EdgeInsets.all(30),
       child: Container(
-        height: ScreenView(context).heightS * 0.04,
-        width: ScreenView(context).widthS * 0.6,
+        height: screenHeight * 0.04,
+        width: screenWidth * 0.6,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35),
             border: Border.all(color: Colors.white)),
@@ -173,18 +119,18 @@ class HomePageWeather extends StatelessWidget {
           textAlign: TextAlign.center,
           style: GoogleFonts.actor(color: Colors.white),
           cursorColor: Colors.white,
-          cursorHeight: ScreenView(context).heightS * 0.016,
+          cursorHeight: screenHeight * 0.016,
           decoration: InputDecoration(
             hintStyle: GoogleFonts.actor(
               color: Colors.white,
-              fontSize: ScreenView(context).heightS * 0.016,
+              fontSize: screenHeight * 0.016,
             ),
             suffixIcon: IconButton(
                 onPressed: loc.screennavigatefivedaypage,
                 icon: Icon(
                   Icons.search_rounded,
                   color: Colors.white,
-                  size: ScreenView(context).heightS * 0.023,
+                  size: screenHeight * 0.023,
                 )),
             border: InputBorder.none,
             hintText: '      Şehir Giriniz',
@@ -192,65 +138,5 @@ class HomePageWeather extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-IconData weathericon(String weatherposition) {
-  switch (weatherposition) {
-    case '01n':
-      return WeatherIcons.day_sunny;
-      break;
-    case '01d':
-      return WeatherIcons.day_sunny;
-      break;
-    case '02n':
-      return WeatherIcons.cloud_refresh;
-      break;
-    case '02d':
-      return WeatherIcons.cloud_refresh;
-      break;
-    case '03n':
-      return WeatherIcons.cloud;
-      break;
-    case '03d':
-      return WeatherIcons.cloud_refresh;
-      break;
-    case '04d':
-      return WeatherIcons.cloudy;
-      break;
-    case '04n':
-      return WeatherIcons.cloudy;
-      break;
-    case '09d':
-      return WeatherIcons.rain;
-      break;
-    case '09n':
-      return WeatherIcons.rain;
-      break;
-    case '10d':
-      return WeatherIcons.day_rain;
-      break;
-    case '10n':
-      return WeatherIcons.day_rain;
-      break;
-    case '11d':
-      return WeatherIcons.thunderstorm;
-      break;
-    case '11n':
-      return WeatherIcons.thunderstorm;
-      break;
-    case '13n':
-      return WeatherIcons.snow;
-      break;
-    case '13d':
-      return WeatherIcons.snow;
-      break;
-    case '50d':
-      return WeatherIcons.fog;
-      break;
-    case '50n':
-      return WeatherIcons.fog;
-      break;
-    default:
   }
 }

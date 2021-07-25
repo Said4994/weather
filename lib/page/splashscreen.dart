@@ -7,11 +7,13 @@ class WeatherSplash extends StatelessWidget {
   final loc = Get.put(Controller());
 
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        height: ScreenView(context).heightS,
-        width: ScreenView(context).widthS,
+        height: screenHeight,
+        width: screenWidth,
         child: Center(
           child: Text(
             'Weather',
